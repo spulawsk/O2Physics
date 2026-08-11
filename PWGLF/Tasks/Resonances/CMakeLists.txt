@@ -333,3 +333,8 @@ o2physics_add_dpl_workflow(cha01710analysis
     SOURCES cha01710analysis.cxx
     PUBLIC_LINK_LIBRARIES O2Physics::AnalysisCore
     COMPONENT_NAME Analysis)
+
+o2physics_add_dpl_workflow(heavy-strange-baryon-resonance-search
+    SOURCES heavyStrangeBaryonResonanceSearch.cxx
+    PUBLIC_LINK_LIBRARIES O2Physics::AnalysisCore
+    COMPONENT_NAME Analysis)

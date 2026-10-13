@@ -189,7 +189,7 @@ struct ResonanceInitializer {
     Configurable<bool> cfgFillLambda0{"cfgFillLambda0", false, "Fill Lambda0"};
     Configurable<bool> cfgFillXi0{"cfgFillXi0", false, "Fill Xi0"};
     Configurable<bool> cfgFillOmega0{"cfgFillOmega0", false, "Fill Omega0"};
-    Configurable<bool> cfgBypassNoPairCascades{"cfgBypassNoPairCascades", true, "Bypass track fill if no pair cascade with track"};
+    Configurable<bool> cfgBypassNoPairCascades{"cfgBypassNoPairCascades", false, "Bypass track fill if no pair cascade with track"};
     Configurable<bool> cfgBypassNoPairV0s{"cfgBypassNoPairV0s", false, "Bypass if no pair V0 with track"};
   } FilterForDerivedTables;
 
@@ -284,8 +284,8 @@ struct ResonanceInitializer {
                                                     || (nabs(aod::mcparticle::pdgCode) == 3322)    // Xi0
                                                     || (nabs(aod::mcparticle::pdgCode) == 3334);   // Omega-
                                                                                                    //
-  using ResoEvents = soa::Join<aod::Collisions, aod::EvSels, aod::CentFT0Ms, aod::CentFT0Cs, aod::CentFT0As, aod::CentFV0As, aod::Mults>;
-  using ResoEvents001 = soa::Join<aod::Collisions, aod::EvSels, aod::CentFT0Ms, aod::CentFT0Cs, aod::CentFT0As, aod::CentFV0As, aod::Mults, aod::MultsExtra, aod::PVMults>;
+  using ResoEvents = soa::Join<aod::Collisions, aod::EvSels, aod::CentFT0Ms, aod::CentFT0Cs, aod::CentFT0As, aod::CentFV0As, aod::PVMults>;
+  using ResoEvents001 = soa::Join<aod::Collisions, aod::EvSels, aod::CentFT0Ms, aod::CentFT0Cs, aod::CentFT0As, aod::CentFV0As, aod::MultsExtra, aod::PVMults>;
   using ResoRun2Events = soa::Join<aod::Collisions, aod::EvSels, aod::CentRun2V0Ms>;
   using ResoEventsMC = soa::Join<ResoEvents, aod::McCollisionLabels>;
   using ResoRun2EventsMC = soa::Join<ResoEvents, aod::McCollisionLabels>;
@@ -1446,7 +1446,7 @@ struct ResonanceInitializer {
   void processDummy(aod::Collisions const& /*collisions*/)
   {
   }
-  PROCESS_SWITCH(ResonanceInitializer, processDummy, "Process for dummy", true);
+  PROCESS_SWITCH(ResonanceInitializer, processDummy, "Process for dummy", false);
 
   void processTrackData(ResoEvents::iterator const& collision,
                         soa::Filtered<ResoTracks> const& tracks,
@@ -1629,7 +1629,7 @@ struct ResonanceInitializer {
     fillV0s<false>(collision, V0s, tracks);
     fillCascades<false>(collision, Cascades, tracks);
   }
-  PROCESS_SWITCH(ResonanceInitializer, processTrackV0CascData, "Process for data", false);
+  PROCESS_SWITCH(ResonanceInitializer, processTrackV0CascData, "Process for data", true);
 
   void processTrackV0CascDataRun2(ResoRun2Events::iterator const& collision,
                                   soa::Filtered<ResoTracks> const& tracks,
@@ -1961,7 +1961,7 @@ struct ResonanceInitializer {
       qaRegistry.fill(HIST("EventGen/h4MultCent_recMC"), evType, centReco, mult, IP);
     }
   }
-  PROCESS_SWITCH(ResonanceInitializer, processMCgen, "Process for MCGen", true);
+  PROCESS_SWITCH(ResonanceInitializer, processMCgen, "Process for MCGen", false);
 
   void processTrackV0CascMCRun2(soa::Join<ResoRun2Events, aod::McCollisionLabels>::iterator const& collision,
                                 aod::McCollisions const&, ResoTracksMC const& tracks,
